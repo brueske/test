@@ -1,14 +1,15 @@
 import SwiftUI
 
+// File-level so PlayerNameField (a separate struct) can reference it
+private enum MenuField { case p1, p2 }
+
 struct MenuView: View {
     @Binding var p1Name: String
     @Binding var p2Name: String
     let onPlay: () -> Void
 
     @State private var showLeaderboard = false
-    @FocusState private var focus: Field?
-
-    private enum Field { case p1, p2 }
+    @FocusState private var focus: MenuField?
 
     private var canPlay: Bool {
         !p1Name.trimmingCharacters(in: .whitespaces).isEmpty &&
@@ -100,9 +101,9 @@ private struct PlayerNameField: View {
     let label: String
     let color: Color
     @Binding var text: String
-    var focusField: FocusState<MenuView.Field?>.Binding
-    let field: MenuView.Field
-    let nextField: MenuView.Field?
+    var focusField: FocusState<MenuField?>.Binding
+    let field: MenuField
+    let nextField: MenuField?
 
     var body: some View {
         HStack(spacing: 12) {
