@@ -70,11 +70,22 @@ enum GameLogic {
 
     private static func jumpMoves(from: BoardPos, pieces: [BoardPos: Int], visited: Set<BoardPos>) -> Set<BoardPos> {
         var moves = Set<BoardPos>()
-        for n in Board.neighbors(of: from) where pieces[n] != nil {
-            let t = Board.jumpTarget(from: from, over: n)
-            guard Board.allPositions.contains(t), pieces[t] == nil, !visited.contains(t) else { continue }
-            moves.insert(t)
-            moves.formUnion(jumpMoves(from: t, pieces: pieces, visited: visited.union([t])))
+        let directions: [(Int, Int)] = [(0, 2), (0, -2), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+        for (dr, dc) in directions {
+            var k = 1
+            while true {
+                let scanned = BoardPos(row: from.row + k * dr, col: from.col + k * dc)
+                guard Board.allPositions.contains(scanned) else { break }
+                if pieces[scanned] != nil {
+                    let target = BoardPos(row: from.row + 2 * k * dr, col: from.col + 2 * k * dc)
+                    if Board.allPositions.contains(target) && pieces[target] == nil && !visited.contains(target) {
+                        moves.insert(target)
+                        moves.formUnion(jumpMoves(from: target, pieces: pieces, visited: visited.union([target])))
+                    }
+                    break
+                }
+                k += 1
+            }
         }
         return moves
     }

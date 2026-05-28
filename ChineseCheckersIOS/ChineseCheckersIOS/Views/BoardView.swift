@@ -97,23 +97,12 @@ struct BoardView: View {
     }
 
     private func drawHoles(ctx: GraphicsContext, layout: BoardLayout) {
-        let r  = layout.cellSize * 0.17
-        let r2 = layout.cellSize * 0.30
-
+        let r = layout.cellSize * 0.17
         for pos in Board.allPositions {
             guard state.pieces[pos] == nil else { continue }
             let c = layout.pt(pos)
-
-            if state.validMoves.contains(pos) {
-                // Glow ring + accent dot
-                let glow = CGRect(x: c.x - r2, y: c.y - r2, width: r2 * 2, height: r2 * 2)
-                ctx.fill(Circle().path(in: glow), with: .color(Color.moveHint.opacity(0.22)))
-                let dot = CGRect(x: c.x - r * 0.65, y: c.y - r * 0.65, width: r * 1.3, height: r * 1.3)
-                ctx.fill(Circle().path(in: dot), with: .color(.moveHint))
-            } else {
-                let rect = CGRect(x: c.x - r, y: c.y - r, width: r * 2, height: r * 2)
-                ctx.fill(Circle().path(in: rect), with: .color(.hole))
-            }
+            let rect = CGRect(x: c.x - r, y: c.y - r, width: r * 2, height: r * 2)
+            ctx.fill(Circle().path(in: rect), with: .color(.hole))
         }
     }
 
