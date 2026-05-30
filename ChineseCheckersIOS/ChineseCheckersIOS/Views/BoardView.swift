@@ -36,9 +36,10 @@ struct BoardLayout {
 
 struct BoardView: View {
     let state: GameState
+    var animatingMove: AnimatingMove? = nil
     let onTap: (BoardPos) -> Void
 
-    @State private var canvasSize: CGSize = .zero
+    @State private var animProgress: Double = 1.0
 
     var body: some View {
         GeometryReader { geo in
@@ -51,11 +52,14 @@ struct BoardView: View {
                 SpatialTapGesture()
                     .onEnded { val in
                         let layout = BoardLayout(size: geo.size)
-                        if let pos = layout.nearest(to: val.location) {
-                            onTap(pos)
-                        }
+                        if let pos = layout.nearest(to: val.location) { onTap(pos) }
                     }
             )
+        }
+        .onChange(of: animatingMove) { _, newMove in
+            guard newMove != nil else { return }
+            animProgress = 0.0
+            withAnimation(.easeOut(duration: 0.25)) { animProgress = 1.0 }
         }
     }
 
@@ -110,25 +114,34 @@ struct BoardView: View {
         let r = layout.cellSize * 0.36
 
         for (pos, player) in state.pieces {
-            let c = layout.pt(pos)
-            let color = playerColor(player)
+            var drawPt = layout.pt(pos)
+
+            // Interpolate position during animation
+            if let anim = animatingMove, pos == anim.to, animProgress < 1.0 {
+                let fromPt = layout.pt(anim.from)
+                let toPt   = layout.pt(anim.to)
+                let t = animProgress
+                drawPt = CGPoint(
+                    x: fromPt.x + (toPt.x - fromPt.x) * t,
+                    y: fromPt.y + (toPt.y - fromPt.y) * t
+                )
+            }
+
+            let color      = playerColor(player)
             let isSelected = pos == state.selectedPos || pos == state.jumpPos
 
             if isSelected {
-                // Outer glow ring
-                let gR = r * 1.45
-                let glow = CGRect(x: c.x - gR, y: c.y - gR, width: gR * 2, height: gR * 2)
+                let gR   = r * 1.45
+                let glow = CGRect(x: drawPt.x - gR, y: drawPt.y - gR, width: gR * 2, height: gR * 2)
                 ctx.fill(Circle().path(in: glow), with: .color(color.opacity(0.30)))
             }
 
-            // Piece body
-            let rect = CGRect(x: c.x - r, y: c.y - r, width: r * 2, height: r * 2)
+            let rect = CGRect(x: drawPt.x - r, y: drawPt.y - r, width: r * 2, height: r * 2)
             ctx.fill(Circle().path(in: rect), with: .color(color))
 
-            // Specular highlight
-            let hR = r * 0.38
-            let hOff = r * 0.28
-            let hRect = CGRect(x: c.x - hR * 0.9, y: c.y - hOff - hR, width: hR * 1.8, height: hR * 1.4)
+            let hR    = r * 0.38
+            let hOff  = r * 0.28
+            let hRect = CGRect(x: drawPt.x - hR * 0.9, y: drawPt.y - hOff - hR, width: hR * 1.8, height: hR * 1.4)
             ctx.fill(Ellipse().path(in: hRect), with: .color(.white.opacity(0.38)))
         }
     }

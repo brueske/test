@@ -4,9 +4,10 @@ enum GameLogic {
 
     static func handleTap(_ state: GameState, pos: BoardPos) -> GameState {
         guard state.winner == nil else { return state }
+        // Once hasMoved and not in a jump chain, only Confirm/Undo work
+        if state.hasMoved && !state.isJumping { return state }
 
         if state.isJumping {
-            if pos == state.jumpPos          { return endJump(state) }
             if state.validMoves.contains(pos) { return execute(state, from: state.jumpPos!, to: pos) }
             return state
         }
@@ -20,10 +21,13 @@ enum GameLogic {
         return state
     }
 
-    static func endJump(_ state: GameState) -> GameState {
+    static func confirmTurn(_ state: GameState) -> GameState {
         var s = state
         s.currentPlayer = state.currentPlayer == 1 ? 2 : 1
-        s.selectedPos = nil; s.validMoves = []; s.isJumping = false; s.jumpPos = nil; s.jumpVisited = []
+        s.selectedPos = nil; s.validMoves = []
+        s.isJumping = false; s.jumpPos = nil; s.jumpVisited = []
+        s.hasMoved = false
+        s.moveCount += 1
         return s
     }
 
@@ -41,23 +45,26 @@ enum GameLogic {
         let player = pieces.removeValue(forKey: from)!
         pieces[to] = player
 
-        if isJump(from: from, to: to) {
+        let winner = checkWinner(pieces: pieces)
+        let jumped = isJump(from: from, to: to)
+
+        var s = state
+        s.pieces = pieces
+        s.hasMoved = true
+        s.winner = winner
+
+        if jumped && winner == nil {
             let visited = state.jumpVisited.union([from, to])
             let more = jumpMoves(from: to, pieces: pieces, visited: visited)
             if !more.isEmpty {
-                var s = state
-                s.pieces = pieces; s.isJumping = true; s.jumpPos = to
+                s.isJumping = true; s.jumpPos = to
                 s.jumpVisited = visited; s.validMoves = more; s.selectedPos = to
                 return s
             }
         }
 
-        let winner = checkWinner(pieces: pieces)
-        var s = state
-        s.pieces = pieces
-        s.currentPlayer = state.currentPlayer == 1 ? 2 : 1
-        s.selectedPos = nil; s.validMoves = []; s.isJumping = false; s.jumpPos = nil; s.jumpVisited = []
-        s.winner = winner
+        s.isJumping = false; s.jumpPos = nil; s.jumpVisited = []
+        s.validMoves = []; s.selectedPos = to
         return s
     }
 

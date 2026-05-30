@@ -14,29 +14,39 @@ struct ChineseCheckersIOSApp: App {
 
 struct RootView: View {
     @EnvironmentObject private var store: GameStore
-    @AppStorage("cc_lastP1") private var p1Name = "Player 1"
-    @AppStorage("cc_lastP2") private var p2Name = "Player 2"
-    @State private var inGame = false
+    @State private var inGame        = false
+    @State private var p1Name        = "Player 1"
+    @State private var p2Name        = "Player 2"
+    @State private var initialState: GameState? = nil
+
+    private var p1Emoji: String { store.emoji(for: p1Name) }
+    private var p2Emoji: String { store.emoji(for: p2Name) }
 
     var body: some View {
         if inGame {
             GameView(
                 p1Name: p1Name,
                 p2Name: p2Name,
-                onWin: { name in
-                    store.recordWin(for: name)
-                },
-                onMenu: {
-                    inGame = false
-                }
+                p1Emoji: p1Emoji,
+                p2Emoji: p2Emoji,
+                initialState: initialState,
+                onMenu: { inGame = false; initialState = nil }
             )
         } else {
             MenuView(
-                p1Name: $p1Name,
-                p2Name: $p2Name,
-                onPlay: {
-                    store.ensureProfile(name: p1Name)
-                    store.ensureProfile(name: p2Name)
+                onNewGame: { p1, p2 in
+                    p1Name = p1; p2Name = p2
+                    store.ensureProfile(name: p1, emoji: "🔴")
+                    store.ensureProfile(name: p2, emoji: "🔵")
+                    store.clearSavedGame()
+                    initialState = nil
+                    inGame = true
+                },
+                onContinue: {
+                    guard let saved = store.savedGame else { return }
+                    p1Name = saved.p1Name
+                    p2Name = saved.p2Name
+                    initialState = saved.state
                     inGame = true
                 }
             )

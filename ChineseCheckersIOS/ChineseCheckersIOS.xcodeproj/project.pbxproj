@@ -20,6 +20,10 @@
 		CC000000000000115DEADBEE /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000000000000114DEADBEE /* LeaderboardView.swift */; };
 		CC000000000000117DEADBEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC000000000000116DEADBEE /* Assets.xcassets */; };
 		CC000000000000119DEADBEE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC000000000000118DEADBEE /* Preview Assets.xcassets */; };
+		CC00000000000011BDEADBEE /* GameRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00000000000011ADEADBEE /* GameRecord.swift */; };
+		CC00000000000011DDEADBEE /* SavedGameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00000000000011CDEADBEE /* SavedGameData.swift */; };
+		CC00000000000011FDEADBEE /* EditProfilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00000000000011EDEADBEE /* EditProfilesView.swift */; };
+		CC000000000000121DEADBEE /* ScoreboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000000000000120DEADBEE /* ScoreboardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +41,10 @@
 		CC000000000000114DEADBEE /* LeaderboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		CC000000000000116DEADBEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC000000000000118DEADBEE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		CC00000000000011ADEADBEE /* GameRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameRecord.swift; sourceTree = "<group>"; };
+		CC00000000000011CDEADBEE /* SavedGameData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedGameData.swift; sourceTree = "<group>"; };
+		CC00000000000011EDEADBEE /* EditProfilesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfilesView.swift; sourceTree = "<group>"; };
+		CC000000000000120DEADBEE /* ScoreboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreboardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				CC00000000000010ADEADBEE /* PlayerProfile.swift */,
+				CC00000000000011ADEADBEE /* GameRecord.swift */,
+				CC00000000000011CDEADBEE /* SavedGameData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -114,6 +124,8 @@
 				CC000000000000110DEADBEE /* GameView.swift */,
 				CC000000000000112DEADBEE /* BoardView.swift */,
 				CC000000000000114DEADBEE /* LeaderboardView.swift */,
+				CC00000000000011EDEADBEE /* EditProfilesView.swift */,
+				CC000000000000120DEADBEE /* ScoreboardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -206,6 +218,10 @@
 				CC000000000000111DEADBEE /* GameView.swift in Sources */,
 				CC000000000000113DEADBEE /* BoardView.swift in Sources */,
 				CC000000000000115DEADBEE /* LeaderboardView.swift in Sources */,
+				CC00000000000011BDEADBEE /* GameRecord.swift in Sources */,
+				CC00000000000011DDEADBEE /* SavedGameData.swift in Sources */,
+				CC00000000000011FDEADBEE /* EditProfilesView.swift in Sources */,
+				CC000000000000121DEADBEE /* ScoreboardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
