@@ -3,10 +3,13 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var audioEngine = AudioEngine()
     @StateObject private var profileManager = ProfileManager()
+    @StateObject private var lfoManager = LFOManager(bandCount: 8)
 
     @State private var showProfiles = false
     @State private var playButtonScale: CGFloat = 1.0
     @State private var activeProfileID: UUID? = nil
+    @State private var showLFOEditor = false
+    @State private var lfoEditorBandIndex: Int = 0
 
     var body: some View {
         ZStack {
@@ -14,32 +17,33 @@ struct ContentView: View {
 
             GeometryReader { geo in
                 VStack(spacing: 0) {
-                    // ── Top bar ──────────────────────────────────────────
                     topBar
                         .frame(height: 56)
 
                     Spacer()
 
-                    // ── Play/Pause button ────────────────────────────────
                     playButton
                         .frame(height: 100)
 
-                    // ── Quick profile slots ──────────────────────────────
                     quickProfilesRow
                         .padding(.top, 28)
                         .padding(.bottom, 4)
 
                     Spacer()
 
-                    // ── Frequency sliders ────────────────────────────────
                     FrequencySliderView(
                         gains: $audioEngine.bandGains,
-                        labels: audioEngine.bandLabels
+                        labels: audioEngine.bandLabels,
+                        lfoManager: lfoManager,
+                        isPlaying: audioEngine.isPlaying,
+                        onLFOLongPress: { i in
+                            lfoEditorBandIndex = i
+                            showLFOEditor = true
+                        }
                     )
-                    .frame(height: geo.size.height * 0.28)
+                    .frame(height: geo.size.height * 0.30)
                     .padding(.horizontal, 16)
 
-                    // ── EQ visualizer ────────────────────────────────────
                     EQVisualizerView(
                         levels: audioEngine.levels,
                         bandLabels: audioEngine.bandLabels
@@ -50,6 +54,18 @@ struct ContentView: View {
             }
         }
         .preferredColorScheme(.dark)
+        .onAppear {
+            lfoManager.baseGains = audioEngine.bandGains
+            lfoManager.onEffectiveGainsUpdated = { [weak audioEngine] gains in
+                audioEngine?.updateEQWithGains(gains)
+            }
+        }
+        .onChange(of: audioEngine.bandGains) { newGains in
+            lfoManager.baseGains = newGains
+        }
+        .onChange(of: audioEngine.isPlaying) { playing in
+            lfoManager.setPlaying(playing, currentGains: audioEngine.bandGains)
+        }
         .sheet(isPresented: $showProfiles) {
             ProfileSheetView(
                 profileManager: profileManager,
@@ -59,50 +75,16 @@ struct ContentView: View {
             .presentationDetents([.medium, .large])
             .presentationBackground(.black)
         }
-    }
-
-    // MARK: - Quick profile row
-
-    private var quickProfilesRow: some View {
-        let slots = Array(profileManager.profiles.prefix(4))
-        return HStack(spacing: 10) {
-            ForEach(slots) { profile in
-                let isActive = activeProfileID == profile.id
-                Button(action: {
-                    audioEngine.bandGains = profile.bandGains
-                    activeProfileID = profile.id
-                }) {
-                    Text(profile.name.uppercased())
-                        .font(.system(size: 10, weight: .light, design: .monospaced))
-                        .tracking(1.5)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
-                        .foregroundColor(isActive ? .white : .white.opacity(0.4))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 9)
-                        .frame(maxWidth: .infinity)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 2)
-                                .stroke(
-                                    isActive ? Color.white.opacity(0.7) : Color.white.opacity(0.18),
-                                    lineWidth: 0.5
-                                )
-                        )
-                }
-                .buttonStyle(.plain)
-            }
-
-            // Empty placeholder slots
-            if slots.count < 4 {
-                ForEach(slots.count..<4, id: \.self) { _ in
-                    RoundedRectangle(cornerRadius: 2)
-                        .stroke(Color.white.opacity(0.07), lineWidth: 0.5)
-                        .frame(height: 34)
-                        .frame(maxWidth: .infinity)
-                }
-            }
+        .sheet(isPresented: $showLFOEditor) {
+            LFOEditorView(
+                bandIndex: lfoEditorBandIndex,
+                bandLabel: audioEngine.bandLabels[lfoEditorBandIndex],
+                lfoManager: lfoManager,
+                isPlaying: audioEngine.isPlaying
+            )
+            .presentationDetents([.large])
+            .presentationBackground(.black)
         }
-        .padding(.horizontal, 28)
     }
 
     // MARK: - Top bar
@@ -136,13 +118,9 @@ struct ContentView: View {
 
     private var playButton: some View {
         Button(action: {
-            withAnimation(.easeInOut(duration: 0.1)) {
-                playButtonScale = 0.9
-            }
+            withAnimation(.easeInOut(duration: 0.1)) { playButtonScale = 0.9 }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                    playButtonScale = 1.0
-                }
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) { playButtonScale = 1.0 }
                 audioEngine.togglePlayback()
             }
         }) {
@@ -156,17 +134,11 @@ struct ContentView: View {
                     .frame(width: 100, height: 100)
 
                 if audioEngine.isPlaying {
-                    // Pause icon — two thin vertical bars
                     HStack(spacing: 10) {
-                        Rectangle()
-                            .fill(Color.white)
-                            .frame(width: 2, height: 26)
-                        Rectangle()
-                            .fill(Color.white)
-                            .frame(width: 2, height: 26)
+                        Rectangle().fill(Color.white).frame(width: 2, height: 26)
+                        Rectangle().fill(Color.white).frame(width: 2, height: 26)
                     }
                 } else {
-                    // Play icon — thin triangle
                     Image(systemName: "play.fill")
                         .font(.system(size: 26, weight: .ultraLight))
                         .foregroundColor(.white)
@@ -176,5 +148,48 @@ struct ContentView: View {
         }
         .scaleEffect(playButtonScale)
         .buttonStyle(.plain)
+    }
+
+    // MARK: - Quick profile row
+
+    private var quickProfilesRow: some View {
+        let slots = Array(profileManager.profiles.prefix(4))
+        return HStack(spacing: 10) {
+            ForEach(slots) { profile in
+                let isActive = activeProfileID == profile.id
+                Button(action: {
+                    audioEngine.bandGains = profile.bandGains
+                    activeProfileID = profile.id
+                }) {
+                    Text(profile.name.uppercased())
+                        .font(.system(size: 10, weight: .light, design: .monospaced))
+                        .tracking(1.5)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                        .foregroundColor(isActive ? .white : .white.opacity(0.4))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 9)
+                        .frame(maxWidth: .infinity)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 2)
+                                .stroke(
+                                    isActive ? Color.white.opacity(0.7) : Color.white.opacity(0.18),
+                                    lineWidth: 0.5
+                                )
+                        )
+                }
+                .buttonStyle(.plain)
+            }
+
+            if slots.count < 4 {
+                ForEach(slots.count..<4, id: \.self) { _ in
+                    RoundedRectangle(cornerRadius: 2)
+                        .stroke(Color.white.opacity(0.07), lineWidth: 0.5)
+                        .frame(height: 34)
+                        .frame(maxWidth: .infinity)
+                }
+            }
+        }
+        .padding(.horizontal, 28)
     }
 }

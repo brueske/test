@@ -99,11 +99,15 @@ class AudioEngine: ObservableObject {
         }
     }
 
-    private func updateEQBands() {
+    func updateEQWithGains(_ gains: [Float]) {
         guard let eq = eqNode else { return }
-        for (i, gain) in bandGains.enumerated() {
+        for (i, gain) in gains.enumerated() where i < eq.bands.count {
             eq.bands[i].gain = gainDB(from: gain)
         }
+    }
+
+    private func updateEQBands() {
+        updateEQWithGains(bandGains)
     }
 
     private func gainDB(from normalized: Float) -> Float {

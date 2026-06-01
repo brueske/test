@@ -16,6 +16,9 @@
 		AA000007 /* ProfileSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100007 /* ProfileSheetView.swift */; };
 		AA000008 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA100008 /* Assets.xcassets */; };
 		AA000009 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA100009 /* Info.plist */; };
+		AA000010 /* LFOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100010 /* LFOManager.swift */; };
+		AA000011 /* LFOIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100011 /* LFOIconView.swift */; };
+		AA000012 /* LFOEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100012 /* LFOEditorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		AA100007 /* ProfileSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSheetView.swift; sourceTree = "<group>"; };
 		AA100008 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA100009 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA100010 /* LFOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFOManager.swift; sourceTree = "<group>"; };
+		AA100011 /* LFOIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFOIconView.swift; sourceTree = "<group>"; };
+		AA100012 /* LFOEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFOEditorView.swift; sourceTree = "<group>"; };
 		AA200001 /* WhiteNoiseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhiteNoiseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -54,6 +60,9 @@
 				AA100007 /* ProfileSheetView.swift */,
 				AA100008 /* Assets.xcassets */,
 				AA100009 /* Info.plist */,
+				AA100010 /* LFOManager.swift */,
+				AA100011 /* LFOIconView.swift */,
+				AA100012 /* LFOEditorView.swift */,
 			);
 			path = WhiteNoiseApp;
 			sourceTree = "<group>";
@@ -150,6 +159,9 @@
 				AA000005 /* EQVisualizerView.swift in Sources */,
 				AA000006 /* FrequencySliderView.swift in Sources */,
 				AA000007 /* ProfileSheetView.swift in Sources */,
+				AA000010 /* LFOManager.swift in Sources */,
+				AA000011 /* LFOIconView.swift in Sources */,
+				AA000012 /* LFOEditorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
