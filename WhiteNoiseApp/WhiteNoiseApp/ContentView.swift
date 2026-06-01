@@ -6,6 +6,7 @@ struct ContentView: View {
 
     @State private var showProfiles = false
     @State private var playButtonScale: CGFloat = 1.0
+    @State private var activeProfileID: UUID? = nil
 
     var body: some View {
         ZStack {
@@ -22,6 +23,11 @@ struct ContentView: View {
                     // ── Play/Pause button ────────────────────────────────
                     playButton
                         .frame(height: 100)
+
+                    // ── Quick profile slots ──────────────────────────────
+                    quickProfilesRow
+                        .padding(.top, 28)
+                        .padding(.bottom, 4)
 
                     Spacer()
 
@@ -45,10 +51,58 @@ struct ContentView: View {
         }
         .preferredColorScheme(.dark)
         .sheet(isPresented: $showProfiles) {
-            ProfileSheetView(profileManager: profileManager, audioEngine: audioEngine)
-                .presentationDetents([.medium, .large])
-                .presentationBackground(.black)
+            ProfileSheetView(
+                profileManager: profileManager,
+                audioEngine: audioEngine,
+                activeProfileID: $activeProfileID
+            )
+            .presentationDetents([.medium, .large])
+            .presentationBackground(.black)
         }
+    }
+
+    // MARK: - Quick profile row
+
+    private var quickProfilesRow: some View {
+        let slots = Array(profileManager.profiles.prefix(4))
+        return HStack(spacing: 10) {
+            ForEach(slots) { profile in
+                let isActive = activeProfileID == profile.id
+                Button(action: {
+                    audioEngine.bandGains = profile.bandGains
+                    activeProfileID = profile.id
+                }) {
+                    Text(profile.name.uppercased())
+                        .font(.system(size: 10, weight: .light, design: .monospaced))
+                        .tracking(1.5)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                        .foregroundColor(isActive ? .white : .white.opacity(0.4))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 9)
+                        .frame(maxWidth: .infinity)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 2)
+                                .stroke(
+                                    isActive ? Color.white.opacity(0.7) : Color.white.opacity(0.18),
+                                    lineWidth: 0.5
+                                )
+                        )
+                }
+                .buttonStyle(.plain)
+            }
+
+            // Empty placeholder slots
+            if slots.count < 4 {
+                ForEach(slots.count..<4, id: \.self) { _ in
+                    RoundedRectangle(cornerRadius: 2)
+                        .stroke(Color.white.opacity(0.07), lineWidth: 0.5)
+                        .frame(height: 34)
+                        .frame(maxWidth: .infinity)
+                }
+            }
+        }
+        .padding(.horizontal, 28)
     }
 
     // MARK: - Top bar

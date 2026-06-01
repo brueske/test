@@ -3,6 +3,7 @@ import SwiftUI
 struct ProfileSheetView: View {
     @ObservedObject var profileManager: ProfileManager
     @ObservedObject var audioEngine: AudioEngine
+    @Binding var activeProfileID: UUID?
     @Environment(\.dismiss) private var dismiss
 
     @State private var showSaveField = false
@@ -122,6 +123,7 @@ struct ProfileSheetView: View {
             } else {
                 Button(action: {
                     audioEngine.bandGains = profile.bandGains
+                    activeProfileID = profile.id
                     dismiss()
                 }) {
                     Text(profile.name)
