@@ -83,7 +83,7 @@ struct LFOEditorView: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 // Canvas
-                TimelineView(.periodic(interval: 0.05)) { _ in
+                TimelineView(.periodic(from: .now, by: 0.05)) { _ in
                     let phase: Double = (isPlaying && state.isEnabled)
                         ? lfoManager.currentPhase(forBand: bandIndex)
                         : -1
