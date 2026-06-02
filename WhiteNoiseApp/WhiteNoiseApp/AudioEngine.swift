@@ -50,30 +50,35 @@ class AudioEngine: ObservableObject {
     }
 
     @objc private func handleInterruption(_ note: Notification) {
-        guard let info = note.userInfo,
-              let typeValue = info[AVAudioSessionInterruptionTypeKey] as? UInt,
-              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
+        // Notifications arrive on a background thread — marshal to main before touching engine state
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self,
+                  let info = note.userInfo,
+                  let typeValue = info[AVAudioSessionInterruptionTypeKey] as? UInt,
+                  let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
 
-        if type == .ended {
-            let optionsValue = info[AVAudioSessionInterruptionOptionKey] as? UInt ?? 0
-            let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-            if options.contains(.shouldResume) && isPlaying {
-                try? AVAudioSession.sharedInstance().setActive(true)
-                if !engine.isRunning { try? engine.start() }
+            if type == .ended {
+                let optionsValue = info[AVAudioSessionInterruptionOptionKey] as? UInt ?? 0
+                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                if options.contains(.shouldResume) && self.isPlaying {
+                    try? AVAudioSession.sharedInstance().setActive(true)
+                    if !self.engine.isRunning { try? self.engine.start() }
+                }
             }
         }
     }
 
     @objc private func handleRouteChange(_ note: Notification) {
-        guard let info = note.userInfo,
-              let reasonValue = info[AVAudioSessionRouteChangeReasonKey] as? UInt,
-              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self,
+                  let info = note.userInfo,
+                  let reasonValue = info[AVAudioSessionRouteChangeReasonKey] as? UInt,
+                  let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else { return }
 
-        // Restart engine after route change (e.g. Bluetooth speaker connected)
-        if reason == .newDeviceAvailable || reason == .oldDeviceUnavailable {
-            if isPlaying && !engine.isRunning {
+            if (reason == .newDeviceAvailable || reason == .oldDeviceUnavailable)
+                && self.isPlaying && !self.engine.isRunning {
                 try? AVAudioSession.sharedInstance().setActive(true)
-                try? engine.start()
+                try? self.engine.start()
             }
         }
     }
@@ -129,18 +134,18 @@ class AudioEngine: ObservableObject {
     }
 
     func togglePlayback() {
+        // Called on main thread — update isPlaying synchronously to prevent
+        // rapid double-taps from landing in the same branch before the flag flips
         if isPlaying {
             engine.pause()
             stopLevelTimer()
-            DispatchQueue.main.async { self.isPlaying = false }
+            isPlaying = false
         } else {
             if !engine.isRunning {
                 try? engine.start()
             }
-            engine.prepare()
-            try? engine.start()
             startLevelTimer()
-            DispatchQueue.main.async { self.isPlaying = true }
+            isPlaying = true
         }
     }
 
