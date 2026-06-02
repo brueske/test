@@ -4,11 +4,13 @@ struct NoiseProfile: Codable, Identifiable {
     var id: UUID
     var name: String
     var bandGains: [Float]
+    var lfoStates: [LFOState]?  // nil for profiles saved before LFO support
 
-    init(id: UUID = UUID(), name: String, bandGains: [Float]) {
+    init(id: UUID = UUID(), name: String, bandGains: [Float], lfoStates: [LFOState]? = nil) {
         self.id = id
         self.name = name
         self.bandGains = bandGains
+        self.lfoStates = lfoStates
     }
 }
 
@@ -21,8 +23,8 @@ class ProfileManager: ObservableObject {
         load()
     }
 
-    func save(name: String, bandGains: [Float]) {
-        let profile = NoiseProfile(name: name, bandGains: bandGains)
+    func save(name: String, bandGains: [Float], lfoStates: [LFOState]) {
+        let profile = NoiseProfile(name: name, bandGains: bandGains, lfoStates: lfoStates)
         profiles.append(profile)
         persist()
     }

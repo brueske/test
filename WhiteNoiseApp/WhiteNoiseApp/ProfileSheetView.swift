@@ -3,6 +3,7 @@ import SwiftUI
 struct ProfileSheetView: View {
     @ObservedObject var profileManager: ProfileManager
     @ObservedObject var audioEngine: AudioEngine
+    @ObservedObject var lfoManager: LFOManager
     @Binding var activeProfileID: UUID?
     @Environment(\.dismiss) private var dismiss
 
@@ -51,7 +52,11 @@ struct ProfileSheetView: View {
 
                             Button("SAVE") {
                                 guard !newProfileName.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-                                profileManager.save(name: newProfileName, bandGains: audioEngine.bandGains)
+                                profileManager.save(
+                                    name: newProfileName,
+                                    bandGains: audioEngine.bandGains,
+                                    lfoStates: lfoManager.states
+                                )
                                 newProfileName = ""
                                 showSaveField = false
                             }
@@ -122,8 +127,7 @@ struct ProfileSheetView: View {
                     }
             } else {
                 Button(action: {
-                    audioEngine.bandGains = profile.bandGains
-                    activeProfileID = profile.id
+                    loadProfile(profile)
                     dismiss()
                 }) {
                     Text(profile.name)
@@ -135,7 +139,6 @@ struct ProfileSheetView: View {
 
             Spacer()
 
-            // rename button
             Button(action: {
                 editingProfile = profile
                 editingName = profile.name
@@ -148,6 +151,14 @@ struct ProfileSheetView: View {
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 16)
+    }
+
+    private func loadProfile(_ profile: NoiseProfile) {
+        audioEngine.bandGains = profile.bandGains
+        if let saved = profile.lfoStates, saved.count == lfoManager.bandCount {
+            lfoManager.states = saved
+        }
+        activeProfileID = profile.id
     }
 }
 

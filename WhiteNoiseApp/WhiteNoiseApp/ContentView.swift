@@ -70,6 +70,7 @@ struct ContentView: View {
             ProfileSheetView(
                 profileManager: profileManager,
                 audioEngine: audioEngine,
+                lfoManager: lfoManager,
                 activeProfileID: $activeProfileID
             )
             .presentationDetents([.medium, .large])
@@ -159,6 +160,9 @@ struct ContentView: View {
                 let isActive = activeProfileID == profile.id
                 Button(action: {
                     audioEngine.bandGains = profile.bandGains
+                    if let saved = profile.lfoStates, saved.count == lfoManager.bandCount {
+                        lfoManager.states = saved
+                    }
                     activeProfileID = profile.id
                 }) {
                     Text(profile.name.uppercased())
