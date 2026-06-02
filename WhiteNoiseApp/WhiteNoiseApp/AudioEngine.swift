@@ -25,12 +25,57 @@ class AudioEngine: ObservableObject {
     init() {
         setupAudioSession()
         setupEngine()
+        observeAudioSession()
     }
 
     private func setupAudioSession() {
         let session = AVAudioSession.sharedInstance()
         try? session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
         try? session.setActive(true)
+    }
+
+    private func observeAudioSession() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleInterruption(_:)),
+            name: AVAudioSession.interruptionNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleRouteChange(_:)),
+            name: AVAudioSession.routeChangeNotification,
+            object: nil
+        )
+    }
+
+    @objc private func handleInterruption(_ note: Notification) {
+        guard let info = note.userInfo,
+              let typeValue = info[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
+
+        if type == .ended {
+            let optionsValue = info[AVAudioSessionInterruptionOptionKey] as? UInt ?? 0
+            let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+            if options.contains(.shouldResume) && isPlaying {
+                try? AVAudioSession.sharedInstance().setActive(true)
+                if !engine.isRunning { try? engine.start() }
+            }
+        }
+    }
+
+    @objc private func handleRouteChange(_ note: Notification) {
+        guard let info = note.userInfo,
+              let reasonValue = info[AVAudioSessionRouteChangeReasonKey] as? UInt,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else { return }
+
+        // Restart engine after route change (e.g. Bluetooth speaker connected)
+        if reason == .newDeviceAvailable || reason == .oldDeviceUnavailable {
+            if isPlaying && !engine.isRunning {
+                try? AVAudioSession.sharedInstance().setActive(true)
+                try? engine.start()
+            }
+        }
     }
 
     private func setupEngine() {
