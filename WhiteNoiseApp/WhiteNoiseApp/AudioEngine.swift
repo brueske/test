@@ -22,6 +22,11 @@ class AudioEngine: ObservableObject {
     private var sampleBuffer: [Float] = []
     private let bufferLock = NSLock()
 
+    // Gates noise generation inside the render block. The engine runs
+    // continuously; toggling this flips between noise and silence, which is
+    // far more reliable than repeatedly start()/pause()-ing the engine.
+    private var isGenerating = false
+
     init() {
         setupAudioSession()
         setupEngine()
@@ -62,7 +67,10 @@ class AudioEngine: ObservableObject {
                 let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
                 if options.contains(.shouldResume) && self.isPlaying {
                     try? AVAudioSession.sharedInstance().setActive(true)
-                    if !self.engine.isRunning { try? self.engine.start() }
+                    if !self.engine.isRunning {
+                        self.engine.prepare()
+                        try? self.engine.start()
+                    }
                 }
             }
         }
@@ -100,9 +108,19 @@ class AudioEngine: ObservableObject {
         let format = AVAudioFormat(standardFormatWithSampleRate: 44100, channels: 1)!
 
         let srcNode = AVAudioSourceNode(format: format) { [weak self] _, _, frameCount, audioBufferList -> OSStatus in
-            guard let self = self else { return noErr }
             let ablPointer = UnsafeMutableAudioBufferListPointer(audioBufferList)
             let frameCount = Int(frameCount)
+
+            // When paused (or torn down), emit silence and keep the engine alive.
+            guard let self = self, self.isGenerating else {
+                for buffer in ablPointer {
+                    if let data = buffer.mData {
+                        memset(data, 0, Int(buffer.mDataByteSize))
+                    }
+                }
+                return noErr
+            }
+
             var samples = [Float](repeating: 0, count: frameCount)
             for i in 0..<frameCount {
                 samples[i] = Float.random(in: -1...1)
@@ -129,21 +147,27 @@ class AudioEngine: ObservableObject {
 
         mixerNode.outputVolume = 0.5
 
+        // Keep the engine running from the start; it renders silence until
+        // isGenerating is set. This avoids unreliable start()/pause() cycling.
+        engine.prepare()
         try? engine.start()
-        engine.pause()
     }
 
     func togglePlayback() {
         // Called on main thread — update isPlaying synchronously to prevent
         // rapid double-taps from landing in the same branch before the flag flips
         if isPlaying {
-            engine.pause()
+            isGenerating = false
             stopLevelTimer()
             isPlaying = false
         } else {
+            // Make sure the session and engine are live, then unmute the source.
             if !engine.isRunning {
+                try? AVAudioSession.sharedInstance().setActive(true)
+                engine.prepare()
                 try? engine.start()
             }
+            isGenerating = true
             startLevelTimer()
             isPlaying = true
         }
