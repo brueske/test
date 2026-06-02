@@ -133,7 +133,7 @@ struct ProfileSheetView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: { profile in
-            Text("Delete "\(profile.name)"?")
+            Text("Delete \"\(profile.name)\"?")
         }
     }
 
