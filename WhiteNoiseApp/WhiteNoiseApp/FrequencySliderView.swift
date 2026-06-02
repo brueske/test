@@ -22,7 +22,12 @@ struct FrequencySliderView: View {
         let iconGap: CGFloat = 6
         let labelH: CGFloat = 20
         let trackH = max(16, totalHeight - iconH - iconGap - labelH)
-        let thumbY = CGFloat(1.0 - gains[i]) * trackH
+
+        // Use LFO-modulated value for display when playing and LFO is active
+        let displayValue: Float = (isPlaying && lfoManager.states[i].isEnabled && lfoManager.effectiveGains.count > i)
+            ? lfoManager.effectiveGains[i]
+            : gains[i]
+        let thumbY = CGFloat(1.0 - displayValue) * trackH
 
         return VStack(spacing: 0) {
             // LFO icon — tap to toggle, long press to open editor

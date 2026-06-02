@@ -5,12 +5,23 @@ struct NoiseProfile: Codable, Identifiable {
     var name: String
     var bandGains: [Float]
     var lfoStates: [LFOState]?  // nil for profiles saved before LFO support
+    var isPinned: Bool
 
-    init(id: UUID = UUID(), name: String, bandGains: [Float], lfoStates: [LFOState]? = nil) {
+    init(id: UUID = UUID(), name: String, bandGains: [Float], lfoStates: [LFOState]? = nil, isPinned: Bool = false) {
         self.id = id
         self.name = name
         self.bandGains = bandGains
         self.lfoStates = lfoStates
+        self.isPinned = isPinned
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        bandGains = try container.decode([Float].self, forKey: .bandGains)
+        lfoStates = try container.decodeIfPresent([LFOState].self, forKey: .lfoStates)
+        isPinned = (try container.decodeIfPresent(Bool.self, forKey: .isPinned)) ?? false
     }
 }
 
@@ -39,6 +50,27 @@ class ProfileManager: ObservableObject {
     func delete(at offsets: IndexSet) {
         profiles.remove(atOffsets: offsets)
         persist()
+    }
+
+    func delete(id: UUID) {
+        profiles.removeAll { $0.id == id }
+        persist()
+    }
+
+    func togglePin(id: UUID) {
+        if let idx = profiles.firstIndex(where: { $0.id == id }) {
+            profiles[idx].isPinned.toggle()
+            persist()
+        }
+    }
+
+    func move(from source: IndexSet, to destination: Int) {
+        profiles.move(fromOffsets: source, toOffset: destination)
+        persist()
+    }
+
+    var pinnedProfiles: [NoiseProfile] {
+        profiles.filter { $0.isPinned }
     }
 
     private func persist() {

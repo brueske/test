@@ -51,8 +51,16 @@ private func catmullRomSpline(_ t: Double, _ p0: Double, _ p1: Double,
 class LFOManager: ObservableObject {
     let bandCount: Int
     @Published var states: [LFOState]
+    @Published var effectiveGains: [Float]
 
-    var baseGains: [Float] = []
+    var baseGains: [Float] = [] {
+        didSet {
+            // Keep effectiveGains in sync for non-LFO bands when not playing
+            if timer == nil {
+                effectiveGains = baseGains
+            }
+        }
+    }
     var onEffectiveGainsUpdated: (([Float]) -> Void)?
 
     private var playStartTime: Date? = nil
@@ -66,6 +74,7 @@ class LFOManager: ObservableObject {
         self.bandCount = bandCount
         self.states = Array(repeating: LFOState(), count: bandCount)
         self.slewedGains = Array(repeating: 0.5, count: bandCount)
+        self.effectiveGains = Array(repeating: 0.5, count: bandCount)
     }
 
     func setPlaying(_ playing: Bool, currentGains: [Float]) {
@@ -78,6 +87,7 @@ class LFOManager: ObservableObject {
         } else {
             stopTimer()
             playStartTime = nil
+            effectiveGains = currentGains
             onEffectiveGainsUpdated?(currentGains)
         }
     }
@@ -113,6 +123,9 @@ class LFOManager: ObservableObject {
             }
         }
 
+        DispatchQueue.main.async { [weak self] in
+            self?.effectiveGains = effective
+        }
         onEffectiveGainsUpdated?(effective)
     }
 

@@ -11,6 +11,8 @@ struct ProfileSheetView: View {
     @State private var newProfileName = ""
     @State private var editingProfile: NoiseProfile? = nil
     @State private var editingName = ""
+    @State private var deleteCandidate: NoiseProfile? = nil
+    @State private var showDeleteConfirm = false
 
     var body: some View {
         ZStack {
@@ -91,18 +93,48 @@ struct ProfileSheetView: View {
 
                 Divider().background(Color.white.opacity(0.1))
 
-                // Profile list
-                ScrollView {
-                    LazyVStack(spacing: 0) {
-                        ForEach(profileManager.profiles) { profile in
-                            profileRow(profile)
-                            Divider().background(Color.white.opacity(0.05))
-                        }
+                // Profile list with swipe actions and drag reorder
+                List {
+                    ForEach(profileManager.profiles) { profile in
+                        profileRow(profile)
+                            .listRowBackground(Color.black)
+                            .listRowSeparatorTint(Color.white.opacity(0.05))
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button(role: .destructive) {
+                                    deleteCandidate = profile
+                                    showDeleteConfirm = true
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+
+                                Button {
+                                    profileManager.togglePin(id: profile.id)
+                                } label: {
+                                    Image(systemName: profile.isPinned ? "pin.slash" : "pin")
+                                }
+                                .tint(Color.white.opacity(0.3))
+                            }
+                    }
+                    .onMove { source, destination in
+                        profileManager.move(from: source, to: destination)
                     }
                 }
+                .listStyle(.plain)
+                .environment(\.editMode, .constant(.active))
+                .scrollContentBackground(.hidden)
+                .background(Color.black)
             }
         }
         .preferredColorScheme(.dark)
+        .alert("Delete Profile", isPresented: $showDeleteConfirm, presenting: deleteCandidate) { profile in
+            Button("Delete", role: .destructive) {
+                profileManager.delete(id: profile.id)
+                if activeProfileID == profile.id { activeProfileID = nil }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: { profile in
+            Text("Delete "\(profile.name)"?")
+        }
     }
 
     private func profileRow(_ profile: NoiseProfile) -> some View {
@@ -135,22 +167,30 @@ struct ProfileSheetView: View {
                         .foregroundColor(.white.opacity(0.8))
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
+
+                if profile.isPinned {
+                    Image(systemName: "pin.fill")
+                        .font(.system(size: 10, weight: .ultraLight))
+                        .foregroundColor(.white.opacity(0.35))
+                        .padding(.leading, 8)
+                }
             }
 
             Spacer()
 
-            Button(action: {
-                editingProfile = profile
-                editingName = profile.name
-            }) {
-                Image(systemName: "pencil")
-                    .font(.system(size: 12, weight: .ultraLight))
-                    .foregroundColor(.white.opacity(0.35))
+            if editingProfile?.id != profile.id {
+                Button(action: {
+                    editingProfile = profile
+                    editingName = profile.name
+                }) {
+                    Image(systemName: "pencil")
+                        .font(.system(size: 12, weight: .ultraLight))
+                        .foregroundColor(.white.opacity(0.35))
+                }
+                .padding(.leading, 16)
             }
-            .padding(.leading, 16)
         }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 16)
+        .padding(.vertical, 8)
     }
 
     private func loadProfile(_ profile: NoiseProfile) {

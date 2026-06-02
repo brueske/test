@@ -11,9 +11,18 @@ struct ContentView: View {
     @State private var showLFOEditor = false
     @State private var lfoEditorBandIndex: Int = 0
 
+    // Wiggle mode state
+    @State private var isWiggling = false
+    @State private var wigglePhase: Bool = false
+    @State private var wiggleTimer: Timer? = nil
+    @State private var draggingProfileID: UUID? = nil
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
+                .onTapGesture {
+                    if isWiggling { stopWiggling() }
+                }
 
             GeometryReader { geo in
                 VStack(spacing: 0) {
@@ -25,7 +34,7 @@ struct ContentView: View {
                     playButton
                         .frame(height: 100)
 
-                    quickProfilesRow
+                    pinnedProfilesGrid
                         .padding(.top, 28)
                         .padding(.bottom, 4)
 
@@ -151,49 +160,91 @@ struct ContentView: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: - Quick profile row
+    // MARK: - Pinned profiles 4×2 grid
 
-    private var quickProfilesRow: some View {
-        let slots = Array(profileManager.profiles.prefix(4))
-        return HStack(spacing: 10) {
-            ForEach(slots) { profile in
-                let isActive = activeProfileID == profile.id
-                Button(action: {
-                    audioEngine.bandGains = profile.bandGains
-                    if let saved = profile.lfoStates, saved.count == lfoManager.bandCount {
-                        lfoManager.states = saved
-                    }
-                    activeProfileID = profile.id
-                }) {
-                    Text(profile.name.uppercased())
-                        .font(.system(size: 10, weight: .light, design: .monospaced))
-                        .tracking(1.5)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
-                        .foregroundColor(isActive ? .white : .white.opacity(0.4))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 9)
-                        .frame(maxWidth: .infinity)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 2)
-                                .stroke(
-                                    isActive ? Color.white.opacity(0.7) : Color.white.opacity(0.18),
-                                    lineWidth: 0.5
-                                )
-                        )
-                }
-                .buttonStyle(.plain)
-            }
+    private var pinnedProfilesGrid: some View {
+        let pinned = profileManager.pinnedProfiles
+        let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 4)
 
-            if slots.count < 4 {
-                ForEach(slots.count..<4, id: \.self) { _ in
-                    RoundedRectangle(cornerRadius: 2)
-                        .stroke(Color.white.opacity(0.07), lineWidth: 0.5)
-                        .frame(height: 34)
-                        .frame(maxWidth: .infinity)
+        return LazyVGrid(columns: columns, spacing: 10) {
+            ForEach(0..<8, id: \.self) { slot in
+                if slot < pinned.count {
+                    let profile = pinned[slot]
+                    let isActive = activeProfileID == profile.id
+                    profileChip(profile: profile, isActive: isActive)
+                } else {
+                    emptyChip
                 }
             }
         }
         .padding(.horizontal, 28)
+        .onTapGesture {
+            if isWiggling { stopWiggling() }
+        }
+    }
+
+    private func profileChip(profile: NoiseProfile, isActive: Bool) -> some View {
+        let wiggleAngle: Double = isWiggling
+            ? (wigglePhase ? 2.0 : -2.0)
+            : 0.0
+
+        return Button(action: {
+            if isWiggling {
+                stopWiggling()
+                return
+            }
+            audioEngine.bandGains = profile.bandGains
+            if let saved = profile.lfoStates, saved.count == lfoManager.bandCount {
+                lfoManager.states = saved
+            }
+            activeProfileID = profile.id
+        }) {
+            Text(profile.name.uppercased())
+                .font(.system(size: 10, weight: .light, design: .monospaced))
+                .tracking(1.5)
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .foregroundColor(isActive ? .white : .white.opacity(0.4))
+                .padding(.horizontal, 8)
+                .padding(.vertical, 9)
+                .frame(maxWidth: .infinity)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 2)
+                        .stroke(
+                            isActive ? Color.white.opacity(0.7) : Color.white.opacity(0.18),
+                            lineWidth: 0.5
+                        )
+                )
+        }
+        .buttonStyle(.plain)
+        .rotationEffect(.degrees(wiggleAngle))
+        .animation(.easeInOut(duration: 0.12).repeatForever(autoreverses: true), value: wigglePhase)
+        .onLongPressGesture(minimumDuration: 0.4) {
+            startWiggling()
+        }
+    }
+
+    private var emptyChip: some View {
+        RoundedRectangle(cornerRadius: 2)
+            .stroke(Color.white.opacity(0.07), lineWidth: 0.5)
+            .frame(height: 34)
+            .frame(maxWidth: .infinity)
+    }
+
+    // MARK: - Wiggle
+
+    private func startWiggling() {
+        isWiggling = true
+        wigglePhase = false
+        wiggleTimer = Timer.scheduledTimer(withTimeInterval: 0.12, repeats: true) { _ in
+            wigglePhase.toggle()
+        }
+    }
+
+    private func stopWiggling() {
+        isWiggling = false
+        wiggleTimer?.invalidate()
+        wiggleTimer = nil
+        wigglePhase = false
     }
 }
