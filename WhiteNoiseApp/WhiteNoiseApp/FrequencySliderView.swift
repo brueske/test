@@ -18,7 +18,7 @@ struct FrequencySliderView: View {
     }
 
     private func sliderColumn(index i: Int, totalHeight: CGFloat) -> some View {
-        let iconH: CGFloat = 22
+        let iconH: CGFloat = 14
         let iconGap: CGFloat = 6
         let labelH: CGFloat = 20
         let trackH = max(16, totalHeight - iconH - iconGap - labelH)
@@ -30,7 +30,7 @@ struct FrequencySliderView: View {
                 state: $lfoManager.states[i],
                 onLongPress: { onLFOLongPress?(i) }
             )
-            .frame(height: iconH)
+            .frame(width: 28, height: iconH)  // fixed width so icons never touch
 
             Color.clear.frame(height: iconGap)
 
