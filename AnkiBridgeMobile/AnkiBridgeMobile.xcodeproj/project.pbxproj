@@ -1,0 +1,285 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3290BA0F56157BC7FC65DEFB = {isa = PBXBuildFile; fileRef = 2F6EF6F0F789F6FE8BFE81BA; };
+		EB1EF76E477C8CCA884B77E4 = {isa = PBXBuildFile; fileRef = 275013AA0724C0CE2E9F7B87; };
+		D4DA763F80B879F8FC01C9BF = {isa = PBXBuildFile; fileRef = F099551DA43F90F0ED7EDA95; };
+		664E198C48DEBC9A62B535BC = {isa = PBXBuildFile; fileRef = 55225B79626470BC7A50686D; };
+		671615F275404F5BD8150E6B = {isa = PBXBuildFile; fileRef = 1A313C5D138D42831C2B4BEA; };
+		58E4A786F1E7B8DCC6F3B8B6 = {isa = PBXBuildFile; fileRef = F1110559FD5D83DD61AC5B72; };
+		1C8EED7E3E79BF2BD02F9426 = {isa = PBXBuildFile; fileRef = E7D75034829AC07E98DCA241; };
+		12A4FCA191ADCE2F9A158F0C = {isa = PBXBuildFile; fileRef = E5CBB6690C81DA3444289DEB; };
+		2F61913B0A9030D0A623A851 = {isa = PBXBuildFile; fileRef = 796F312227A6CD4C240A71B0; };
+		9FFE6743FFD8672311062B71 = {isa = PBXBuildFile; fileRef = 2622823DE6D086CB0CEF3131; };
+		C463E77695C6C4110731FDF4 = {isa = PBXBuildFile; fileRef = 65CD6D68D4EDB2480749565A; };
+		2E9E9F16D84D9A43F38EE2A7 = {isa = PBXBuildFile; fileRef = CCFFAED0CD8C9314C142D6AF; };
+		AD5271765F519FB0F36D2223 = {isa = PBXBuildFile; fileRef = 258E8D3A3B7EA8C23B8C7D46; };
+		28FF25736D9F09C834F01E31 = {isa = PBXBuildFile; fileRef = 9A571F4B902CCEF3C54C6772; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2F6EF6F0F789F6FE8BFE81BA = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnkiBridgeMobileApp.swift; sourceTree = "<group>"; };
+		275013AA0724C0CE2E9F7B87 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F099551DA43F90F0ED7EDA95 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		55225B79626470BC7A50686D = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		1A313C5D138D42831C2B4BEA = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		F1110559FD5D83DD61AC5B72 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenAIClient.swift; sourceTree = "<group>"; };
+		E7D75034829AC07E98DCA241 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnkiConnectClient.swift; sourceTree = "<group>"; };
+		E5CBB6690C81DA3444289DEB = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardParser.swift; sourceTree = "<group>"; };
+		796F312227A6CD4C240A71B0 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		2622823DE6D086CB0CEF3131 = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
+		65CD6D68D4EDB2480749565A = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecksView.swift; sourceTree = "<group>"; };
+		CCFFAED0CD8C9314C142D6AF = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		258E8D3A3B7EA8C23B8C7D46 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9A571F4B902CCEF3C54C6772 = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AEF63687048485D45524643C = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnkiBridgeMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E941DA8187B32B086A8E8098 = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BDE88D77EBDC01774960BE71 = {
+			isa = PBXGroup;
+			children = (
+				DD48BDD2E20000D9CE524826,
+				4FDE57E4B72FFCEE306CEB0F,
+			);
+			sourceTree = "<group>";
+		};
+		DD48BDD2E20000D9CE524826 = {
+			isa = PBXGroup;
+			children = (
+				2F6EF6F0F789F6FE8BFE81BA,
+				275013AA0724C0CE2E9F7B87,
+				F099551DA43F90F0ED7EDA95,
+				55225B79626470BC7A50686D,
+				1A313C5D138D42831C2B4BEA,
+				F1110559FD5D83DD61AC5B72,
+				E7D75034829AC07E98DCA241,
+				E5CBB6690C81DA3444289DEB,
+				796F312227A6CD4C240A71B0,
+				2622823DE6D086CB0CEF3131,
+				65CD6D68D4EDB2480749565A,
+				CCFFAED0CD8C9314C142D6AF,
+				258E8D3A3B7EA8C23B8C7D46,
+				9A571F4B902CCEF3C54C6772,
+			);
+			path = AnkiBridgeMobile;
+			sourceTree = "<group>";
+		};
+		4FDE57E4B72FFCEE306CEB0F = {
+			isa = PBXGroup;
+			children = (
+				AEF63687048485D45524643C,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E8A3AD980EC179856012B7E = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B3667CC313035D2136889A17;
+			buildPhases = (
+				5B1B2B2ECB524BA8C71F3188,
+				E941DA8187B32B086A8E8098,
+				C5926192950FAB508AE8C163,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AnkiBridgeMobile;
+			productName = AnkiBridgeMobile;
+			productReference = AEF63687048485D45524643C;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98F54143AB4E86B28C3AFEE0 = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					0E8A3AD980EC179856012B7E = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = DA4A5A2CC290E9EF8B3973A2;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BDE88D77EBDC01774960BE71;
+			productRefGroup = 4FDE57E4B72FFCEE306CEB0F;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0E8A3AD980EC179856012B7E,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C5926192950FAB508AE8C163 = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD5271765F519FB0F36D2223,
+				28FF25736D9F09C834F01E31,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5B1B2B2ECB524BA8C71F3188 = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3290BA0F56157BC7FC65DEFB,
+				EB1EF76E477C8CCA884B77E4,
+				D4DA763F80B879F8FC01C9BF,
+				664E198C48DEBC9A62B535BC,
+				671615F275404F5BD8150E6B,
+				58E4A786F1E7B8DCC6F3B8B6,
+				1C8EED7E3E79BF2BD02F9426,
+				12A4FCA191ADCE2F9A158F0C,
+				2F61913B0A9030D0A623A851,
+				9FFE6743FFD8672311062B71,
+				C463E77695C6C4110731FDF4,
+				2E9E9F16D84D9A43F38EE2A7,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1852E15020432E7608450865 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9821D7047D265E861760F806 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		819F275E91EDBFB51997DDF7 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				INFOPLIST_FILE = AnkiBridgeMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ankibridge.mobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EDE9D4D773ABC3BD277F4C9D = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				INFOPLIST_FILE = AnkiBridgeMobile/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ankibridge.mobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DA4A5A2CC290E9EF8B3973A2 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1852E15020432E7608450865,
+				9821D7047D265E861760F806,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B3667CC313035D2136889A17 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				819F275E91EDBFB51997DDF7,
+				EDE9D4D773ABC3BD277F4C9D,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 98F54143AB4E86B28C3AFEE0;
+}
