@@ -1,0 +1,314 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AABB09000000000000000001 /* PyLearnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB08000000000000000001 /* PyLearnApp.swift */; };
+		AABB09000000000000000002 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB08000000000000000002 /* AppModel.swift */; };
+		AABB09000000000000000003 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB08000000000000000003 /* AppSettings.swift */; };
+		AABB09000000000000000004 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB08000000000000000004 /* ContentView.swift */; };
+		AABB09000000000000000005 /* CodePanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB08000000000000000005 /* CodePanelView.swift */; };
+		AABB09000000000000000006 /* SyntaxHighlightingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB08000000000000000006 /* SyntaxHighlightingTextView.swift */; };
+		AABB09000000000000000007 /* PythonSyntax.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB08000000000000000007 /* PythonSyntax.swift */; };
+		AABB09000000000000000008 /* PythonTokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB08000000000000000008 /* PythonTokenizer.swift */; };
+		AABB09000000000000000009 /* TermFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB08000000000000000009 /* TermFlowView.swift */; };
+		AABB0900000000000000000A /* DefinitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0800000000000000000A /* DefinitionView.swift */; };
+		AABB0900000000000000000B /* LLMPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0800000000000000000B /* LLMPanelView.swift */; };
+		AABB0900000000000000000C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0800000000000000000C /* SettingsView.swift */; };
+		AABB0900000000000000000D /* PythonDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0800000000000000000D /* PythonDefinitions.swift */; };
+		AABB0900000000000000000E /* DefinitionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0800000000000000000E /* DefinitionProvider.swift */; };
+		AABB0900000000000000000F /* LLMService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0800000000000000000F /* LLMService.swift */; };
+		AABB09000000000000000010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AABB08000000000000000010 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AABB04000000000000000001 /* PyLearn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PyLearn.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AABB08000000000000000001 /* PyLearnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyLearnApp.swift; sourceTree = "<group>"; };
+		AABB08000000000000000002 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		AABB08000000000000000003 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		AABB08000000000000000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AABB08000000000000000005 /* CodePanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePanelView.swift; sourceTree = "<group>"; };
+		AABB08000000000000000006 /* SyntaxHighlightingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHighlightingTextView.swift; sourceTree = "<group>"; };
+		AABB08000000000000000007 /* PythonSyntax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PythonSyntax.swift; sourceTree = "<group>"; };
+		AABB08000000000000000008 /* PythonTokenizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PythonTokenizer.swift; sourceTree = "<group>"; };
+		AABB08000000000000000009 /* TermFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermFlowView.swift; sourceTree = "<group>"; };
+		AABB0800000000000000000A /* DefinitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionView.swift; sourceTree = "<group>"; };
+		AABB0800000000000000000B /* LLMPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMPanelView.swift; sourceTree = "<group>"; };
+		AABB0800000000000000000C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		AABB0800000000000000000D /* PythonDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PythonDefinitions.swift; sourceTree = "<group>"; };
+		AABB0800000000000000000E /* DefinitionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionProvider.swift; sourceTree = "<group>"; };
+		AABB0800000000000000000F /* LLMService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMService.swift; sourceTree = "<group>"; };
+		AABB08000000000000000010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AABB08000000000000000011 /* PyLearn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PyLearn.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AABB05000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AABB02000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				AABB02000000000000000002 /* PyLearn */,
+				AABB02000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AABB02000000000000000002 /* PyLearn */ = {
+			isa = PBXGroup;
+			children = (
+				AABB08000000000000000001 /* PyLearnApp.swift */,
+				AABB08000000000000000004 /* ContentView.swift */,
+				AABB08000000000000000005 /* CodePanelView.swift */,
+				AABB08000000000000000006 /* SyntaxHighlightingTextView.swift */,
+				AABB08000000000000000009 /* TermFlowView.swift */,
+				AABB0800000000000000000A /* DefinitionView.swift */,
+				AABB0800000000000000000B /* LLMPanelView.swift */,
+				AABB0800000000000000000C /* SettingsView.swift */,
+				AABB08000000000000000002 /* AppModel.swift */,
+				AABB08000000000000000003 /* AppSettings.swift */,
+				AABB08000000000000000007 /* PythonSyntax.swift */,
+				AABB08000000000000000008 /* PythonTokenizer.swift */,
+				AABB0800000000000000000D /* PythonDefinitions.swift */,
+				AABB0800000000000000000E /* DefinitionProvider.swift */,
+				AABB0800000000000000000F /* LLMService.swift */,
+				AABB08000000000000000010 /* Assets.xcassets */,
+				AABB08000000000000000011 /* PyLearn.entitlements */,
+			);
+			path = PyLearn;
+			sourceTree = "<group>";
+		};
+		AABB02000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AABB04000000000000000001 /* PyLearn.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AABB03000000000000000001 /* PyLearn */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AABB06000000000000000002 /* Build configuration list for PBXNativeTarget "PyLearn" */;
+			buildPhases = (
+				AABB05000000000000000001 /* Sources */,
+				AABB05000000000000000003 /* Frameworks */,
+				AABB05000000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PyLearn;
+			productName = PyLearn;
+			productReference = AABB04000000000000000001 /* PyLearn.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AABB01000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					AABB03000000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = AABB06000000000000000001 /* Build configuration list for PBXProject "PyLearn" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AABB02000000000000000001;
+			productRefGroup = AABB02000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AABB03000000000000000001 /* PyLearn */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AABB05000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AABB09000000000000000010 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AABB05000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AABB09000000000000000001 /* PyLearnApp.swift in Sources */,
+				AABB09000000000000000004 /* ContentView.swift in Sources */,
+				AABB09000000000000000005 /* CodePanelView.swift in Sources */,
+				AABB09000000000000000006 /* SyntaxHighlightingTextView.swift in Sources */,
+				AABB09000000000000000009 /* TermFlowView.swift in Sources */,
+				AABB0900000000000000000A /* DefinitionView.swift in Sources */,
+				AABB0900000000000000000B /* LLMPanelView.swift in Sources */,
+				AABB0900000000000000000C /* SettingsView.swift in Sources */,
+				AABB09000000000000000002 /* AppModel.swift in Sources */,
+				AABB09000000000000000003 /* AppSettings.swift in Sources */,
+				AABB09000000000000000007 /* PythonSyntax.swift in Sources */,
+				AABB09000000000000000008 /* PythonTokenizer.swift in Sources */,
+				AABB0900000000000000000D /* PythonDefinitions.swift in Sources */,
+				AABB0900000000000000000E /* DefinitionProvider.swift in Sources */,
+				AABB0900000000000000000F /* LLMService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		AABB07000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AABB07000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		AABB07000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PyLearn/PyLearn.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.PyLearn;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AABB07000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PyLearn/PyLearn.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.PyLearn;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AABB06000000000000000001 /* Build configuration list for PBXProject "PyLearn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AABB07000000000000000001 /* Debug */,
+				AABB07000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AABB06000000000000000002 /* Build configuration list for PBXNativeTarget "PyLearn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AABB07000000000000000003 /* Debug */,
+				AABB07000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AABB01000000000000000001 /* Project object */;
+}
